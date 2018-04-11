@@ -2,6 +2,25 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+project.ext {
+    androidSource = '27.1.1'
+    rxjava2 = '2.1.7'
+    rxandroid = '2.0.2'
+    rxkotlin = '2.2.0'
+    retrofit = '2.3.0'
+    retrofit_gson_converter = '2.1.0'
+    retrofit_rx_adapter = '2.2.0'
+    http_logger = '3.9.1'
+    toothpick = '1.1.3'
+    arch_lifecycle = '1.1.1'
+    arch_persistence = '1.0.0'
+    autodispose = '0.6.0'
+    timber = '4.6.1'
+    rx_permissions = '0.9.5@aar'
+    butterknife = '8.8.1'
+    glide = '4.5.0'
+}
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -26,7 +45,43 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    // Base dependencies
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$project.kotlin_version"
+    implementation "com.android.support:appcompat-v7:$androidSource"
+    implementation "com.android.support:design:$androidSource"
+
+    // Architecture components
+    implementation "android.arch.lifecycle:extensions:$arch_lifecycle"
+    implementation "android.arch.lifecycle:reactivestreams:$arch_lifecycle"
+    implementation "android.arch.persistence.room:runtime:$arch_persistence"
+    kapt "android.arch.persistence.room:compiler:$arch_persistence"
+
+    // Toothpick
+    implementation "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpick"
+    implementation "com.github.stephanenicolas.toothpick:smoothie:$toothpick"
+    kapt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick"
+
+    // Rx
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin"
+    implementation "com.uber.autodispose:autodispose-kotlin:$autodispose"
+    implementation "com.uber.autodispose:autodispose-android-kotlin:$autodispose"
+    implementation "com.uber.autodispose:autodispose-android-archcomponents-kotlin:$autodispose"
+    implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rx_permissions"
+
+    // Network
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_converter"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_rx_adapter"
+    implementation "com.squareup.okhttp3:logging-interceptor:$http_logger"
+
+    //UI
+    implementation "com.jakewharton:butterknife:$butterknife"
+    kapt "com.jakewharton:butterknife-compiler:$butterknife"
+    implementation "com.github.bumptech.glide:glide:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
+
+    // Logging
+    implementation "com.jakewharton.timber:timber:$timber"
 }
