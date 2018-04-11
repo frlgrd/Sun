@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Color palette : https://coolors.co/00bcd4-a4036f-16db93-efea5a-f29e4c -->
-	<color name="colorPrimary">#3F51B5</color>
-	<color name="colorPrimaryDark">#303F9F</color>
-	<color name="colorAccent">#FF4081</color>
+	<!-- Color palette : https://coolors.co/28cdff-293132-474044-4f5165-547aa5 -->
+
+	<color name="colorPrimary">#28cdff</color>
+	<color name="colorPrimaryDark">#1dacd7</color>
+	<color name="colorAccent">#293132</color>
+
+	<color name="ic_launcher_background">@android:color/white</color>
 </resources>
