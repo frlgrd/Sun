@@ -37,20 +37,15 @@ abstract class BaseViewModel(app: Application) : ViewModel(), LifecycleScopeProv
         ON_CREATED, ON_CLEARED
     }
 
-    override fun lifecycle(): Observable<ViewModelLifeCycleEvent> {
-        return scopeProvider.hide()
-    }
+    override fun lifecycle(): Observable<ViewModelLifeCycleEvent> = scopeProvider.hide()
 
-    override fun peekLifecycle(): ViewModelLifeCycleEvent? {
-        return scopeProvider.value
-    }
+    override fun peekLifecycle(): ViewModelLifeCycleEvent = scopeProvider.value
 
-    override fun correspondingEvents(): Function<ViewModelLifeCycleEvent, ViewModelLifeCycleEvent> {
-        return Function { viewModelEvent ->
-            when (viewModelEvent) {
-                ViewModelLifeCycleEvent.ON_CREATED -> ViewModelLifeCycleEvent.ON_CLEARED
-                ViewModelLifeCycleEvent.ON_CLEARED -> throw LifecycleEndedException()
+    override fun correspondingEvents(): Function<ViewModelLifeCycleEvent, ViewModelLifeCycleEvent> =
+            Function { viewModelEvent ->
+                when (viewModelEvent) {
+                    ViewModelLifeCycleEvent.ON_CREATED ->  ViewModelLifeCycleEvent.ON_CLEARED
+                    ViewModelLifeCycleEvent.ON_CLEARED ->  throw LifecycleEndedException()
+                }
             }
-        }
-    }
 }
