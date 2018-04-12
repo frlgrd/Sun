@@ -1,5 +1,7 @@
 package com.frlgrd.sun.common
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.LayoutRes
@@ -9,22 +11,15 @@ import toothpick.config.Module
 import toothpick.smoothie.module.SmoothieActivityModule
 import toothpick.smoothie.module.SmoothieSupportActivityModule
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity(@LayoutRes private val layoutRes: Int) : AppCompatActivity() {
 
-    @LayoutRes
-    protected abstract fun layoutRes(): Int
-
-    /**
-     *
-     */
-    protected abstract fun injector(): Module
+    protected abstract fun module(): Module
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutRes())
-        injectDependencies()
-        startViewModelObservations()
+        setContentView(layoutRes)
+        onInject()
     }
 
     @CallSuper
@@ -33,12 +28,15 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun injectDependencies() {
+    @CallSuper
+    open fun onInject() {
         val activityScope = Toothpick.openScopes(application, this)
-        activityScope.installModules(SmoothieSupportActivityModule(this), SmoothieActivityModule(this), injector())
+        activityScope.installModules(SmoothieSupportActivityModule(this), SmoothieActivityModule(this), module())
         Toothpick.inject(this, activityScope)
     }
 
-    open fun startViewModelObservations() {}
-
+    fun <T : ViewModel> getViewModel(viewModelClass: Class<T>): T =
+            ViewModelProviders.of(this, Toothpick.openScopes(application)
+                    .getInstance(ViewModelFactory::class.java))
+                    .get(viewModelClass)
 }
