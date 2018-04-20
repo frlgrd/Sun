@@ -13,6 +13,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home) {
 
     override fun onInject() {
         super.onInject()
-        viewModel.doStuff()
+
     }
 }
